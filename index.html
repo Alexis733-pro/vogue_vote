@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Vote Myer Reyes · VOGUE VIBE Cover</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #0b0b0b;
+      color: #fff;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    .landing-hero {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ── Full Background Image ── */
+    .hero-background {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1976&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center 30%;
+      background-repeat: no-repeat;
+      z-index: 0;
+    }
+
+    /* Dark overlay for text readability */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.35) 0%,
+        rgba(0, 0, 0, 0.25) 30%,
+        rgba(0, 0, 0, 0.55) 60%,
+        rgba(0, 0, 0, 0.85) 100%
+      );
+      z-index: 1;
+    }
+
+    /* ── Content Layer ── */
+    .landing-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      flex: 1;
+      padding: 30px 20px 40px;
+      text-align: center;
+    }
+
+    /* ── Masthead at Top ── */
+    .masthead {
+      position: absolute;
+      top: 28px;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      text-align: center;
+    }
+
+    .masthead-title {
+      font-size: clamp(2.2rem, 7vw, 3.8rem);
+      font-weight: 900;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #ffffff 30%, #d4af37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+      line-height: 1;
+    }
+
+    .masthead-sub {
+      font-size: 0.6rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+      margin-top: 4px;
+    }
+
+    /* ── Contestant Name Block ── */
+    .contestant-block {
+      margin-bottom: 8px;
+      max-width: 500px;
+    }
+
+    .vote-label {
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #d4af37;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .contestant-name {
+      font-size: clamp(2.8rem, 9vw, 5rem);
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 0.9;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .contestant-tagline {
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      font-weight: 300;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.9);
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+
+    /* ── CTA Button ── */
+    .cta-section {
+      margin-top: 20px;
+    }
+
+    .vote-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #ffffff;
+      color: #0a0a0a;
+      border: none;
+      padding: 16px 38px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border-radius: 50px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 35px rgba(212, 175, 55, 0.4);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vote-cta-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #d4af37, #f9e076, #d4af37);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .vote-cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(212, 175, 55, 0.55);
+    }
+
+    .vote-cta-btn:hover::after {
+      opacity: 0.12;
+    }
+
+    .vote-btn-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .fb-icon-small {
+      width: 22px;
+      height: 22px;
+      background: #1877f2;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ── */
+    .terms-note {
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 16px;
+      letter-spacing: 1px;
+    }
+
+    /* ── Mobile Tweaks ── */
+    @media (max-width: 600px) {
+      .landing-content {
+        padding: 24px 18px 36px;
+      }
+      .masthead {
+        top: 20px;
+      }
+      .contestant-name {
+        font-size: 2.6rem;
+      }
+      .vote-cta-btn {
+        padding: 14px 30px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="landing-hero">
+    <!-- Full Background Image -->
+    <div class="hero-background"></div>
+    <div class="hero-overlay"></div>
+
+    <!-- Masthead -->
+    <div class="masthead">
+      <div class="masthead-title">VOGUE VIBE</div>
+      <div class="masthead-sub">Cover Model Search · 2026</div>
+    </div>
+
+    <!-- Bottom Content -->
+    <div class="landing-content">
+      <div class="contestant-block">
+        <div class="vote-label">Cast Your Vote For</div>
+        <h1 class="contestant-name">MYER<br>REYES</h1>
+        <p class="contestant-tagline">"The face of a new era."</p>
+      </div>
+
+      <div class="cta-section">
+        <a href="login.html" class="vote-cta-btn">
+          <span class="fb-icon-small">f</span>
+          <span class="vote-btn-text">Vote with Facebook</span>
+        </a>
+      </div>
+
+      <p class="terms-note">One vote per Facebook account · Voting ends soon</p>
+    </div>
+  </div>
+</body>
+</html>
